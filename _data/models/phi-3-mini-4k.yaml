@@ -63,7 +63,7 @@ configuration: |
 examples:
   - title: "Code Generation"
     code: |
-      curl -X POST http://localhost:8081/generate \
+      curl -X POST http://localhost:8000/generate \
         -H 'Content-Type: application/json' \
         -d '{
           "inputs": "Write a Python function that calculates the factorial of a number. Include comments explaining the logic:",
@@ -75,7 +75,7 @@ examples:
 
   - title: "Step-by-Step Math"
     code: |
-      curl -X POST http://localhost:8081/generate \
+      curl -X POST http://localhost:8000/generate \
         -H 'Content-Type: application/json' \
         -d '{
           "inputs": "Solve step by step: A store offers a 15% discount on a $80 item. What is the final price after tax if the tax rate is 8%?",

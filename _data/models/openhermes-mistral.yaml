@@ -97,7 +97,7 @@ deployment_steps:
   - title: "Test Model"
     description: "Make a test request to verify deployment"
     code: |
-      curl -X POST http://localhost:8086/generate \
+      curl -X POST http://localhost:8000/generate \
         -H "Authorization: Bearer YOUR_TOKEN" \
         -H "Content-Type: application/json" \
         -d '{"inputs": "Explain the concept of recursion:", "parameters": {"max_new_tokens": 50}}' 

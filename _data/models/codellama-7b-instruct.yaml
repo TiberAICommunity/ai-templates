@@ -51,7 +51,7 @@ deployment_steps:
   - title: "Test Model"
     description: "Make a test request to verify deployment"
     code: |
-      curl -X POST http://localhost:8089/generate \
+      curl -X POST http://localhost:8000/generate \
         -H "Authorization: Bearer YOUR_TOKEN" \
         -H "Content-Type: application/json" \
         -d '{"inputs": "Write a Python function to sort a list:", "parameters": {"max_new_tokens": 50}}'
