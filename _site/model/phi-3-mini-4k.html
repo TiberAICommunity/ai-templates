@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - Tiber AI Community</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/model.css">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tiber AI Community | Deploy and run LLM models on Intel Data Center GPUs</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Tiber AI Community" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Deploy and run LLM models on Intel Data Center GPUs" />
+<meta property="og:description" content="Deploy and run LLM models on Intel Data Center GPUs" />
+<link rel="canonical" href="http://0.0.0.0:4000/model/phi-3-mini-4k.html" />
+<meta property="og:url" content="http://0.0.0.0:4000/model/phi-3-mini-4k.html" />
+<meta property="og:site_name" content="Tiber AI Community" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tiber AI Community" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Deploy and run LLM models on Intel Data Center GPUs","headline":"Tiber AI Community","url":"http://0.0.0.0:4000/model/phi-3-mini-4k.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">Tiber AI Community</a>
+        </div>
+    </nav>
+
+    <main>
+        
+
+<div class="model-detail-container">
+    <div class="model-content-split">
+        <!-- Left section (60%) -->
+        <div class="model-description">
+            <!-- Quick Overview Section -->
+            <div class="model-header">
+                <h1>Phi-3 mini 4k</h1>
+                <div class="model-tags">
+                    
+                    <span class="tag" style="background-color: #3B82F620; color: #3B82F6">
+                        Transformer
+                    </span>
+                    
+                    <span class="tag" style="background-color: #10B98120; color: #10B981">
+                        4K context
+                    </span>
+                    
+                    <span class="tag" style="background-color: #8B5CF620; color: #8B5CF6">
+                        Instruction
+                    </span>
+                    
+                    <span class="tag" style="background-color: #EF444420; color: #EF4444">
+                        TGI
+                    </span>
+                    
+                </div>
+                <p class="model-intro">Microsoft's Phi-3-mini-4k model running on Text Generation Inference (TGI). A compact yet powerful model optimized for reasoning, coding, and structured tasks.</p>
+                
+                <div class="license-notice">
+                    ⚠️ Before using this model, please review the license terms and usage rights on the Hugging Face model page.
+                </div>
+                
+            </div>
+
+            <!-- Key Information Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>📊 Model Specs</h3>
+                    <ul>
+                        <li><strong>Model ID:</strong> microsoft/Phi-3-mini-4k-instruct</li>
+                        <li><strong>Context Window:</strong> 4096 tokens</li>
+                        <li><strong>Hardware:</strong> Intel Data Center GPU Max Series</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>💪 Strengths</h3>
+                    <ul>
+                        
+                        <li>Code generation</li>
+                        
+                        <li>Step-by-step reasoning</li>
+                        
+                        <li>Math problems</li>
+                        
+                        <li>Technical explanations</li>
+                        
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 Use Cases</h3>
+                    <ul>
+                        
+                        <li>Writing and debugging code</li>
+                        
+                        <li>Solving mathematical problems</li>
+                        
+                        <li>Explaining technical concepts</li>
+                        
+                        <li>Logical reasoning tasks</li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+            
+            <!-- Architecture Section -->
+            <section class="architecture-section">
+                <div class="section-header">
+                    <h2>Deployment Architecture</h2>
+                    <div class="architecture-notice">
+                        <div class="notice-icon">ℹ️</div>
+                        <div class="notice-content">
+                            <strong>Reference Architecture:</strong> This represents a recommended setup using the provided repository.
+                            Always review the latest documentation for your specific use case.
+                        </div>
+                    </div>
+                </div>
+                <div class="mermaid">
+                    flowchart LR
+    Client([Client])
+    Traefik[Traefik Proxy]
+    Auth[Auth Service]
+    TGI[TGI Service]
+
+    Client --> Traefik
+    Traefik --> Auth
+    Auth --> Traefik
+    Traefik --> TGI
+    TGI --> Traefik
+    Traefik --> Client
+
+    subgraph Internal["Internal Network"]
+        Traefik
+        Auth
+        TGI
+    end
+
+                </div>
+                <div class="security-features">
+                    <h3>Security & Performance Features</h3>
+                    <div class="feature-grid">
+                        
+                        <div class="feature-card">🔒 Token-based authentication with automatic ban after failed attempts</div>
+                        
+                        <div class="feature-card">🚦 Rate limiting (global: 10 req/s, per-IP: 10 req/s)</div>
+                        
+                        <div class="feature-card">🛡️ Security headers and IP protection</div>
+                        
+                        <div class="feature-card">🔄 Health monitoring and automatic recovery</div>
+                        
+                        <div class="feature-card">🚀 Optimized for Intel GPUs</div>
+                        
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+
+        <!-- Right section (40%) -->
+        <div class="deployment-steps">
+            <div class="sticky-content">
+                <div class="deployment-header">
+                    <h2>Quick Start Guide</h2>
+                    <p>Get up and running in minutes</p>
+                </div>
+                
+                <div class="progress-tracker">
+                    <div class="progress-bar"></div>
+                    
+                    <div class="step active">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Create Account</h3>
+                            <p>Create a standard account on Intel Tiber AI Cloud</p>
+                            
+                            
+                            <a href="https://cloud.intel.com" class="step-link" target="_blank">
+                                Visit Intel Cloud Portal →
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="step ">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Select Hardware</h3>
+                            <p>Select an Intel Data Center Max Series GPU VM</p>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="step ">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Clone Repository</h3>
+                            <p>Clone the TGI repository</p>
+                            
+                            <div class="code-block">
+                                <button class="copy-button" onclick="copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy</span>
+                                </button>
+                                <pre><code>git clone https://github.com/tiberaicommunity/xpu_tgi</code></pre>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="step ">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Generate Token</h3>
+                            <p>Generate authentication token for secure access</p>
+                            
+                            <div class="code-block">
+                                <button class="copy-button" onclick="copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy</span>
+                                </button>
+                                <pre><code>python utils/generate_token.py</code></pre>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="step ">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Start Model</h3>
+                            <p>Start the Phi-3 model</p>
+                            
+                            <div class="code-block">
+                                <button class="copy-button" onclick="copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy</span>
+                                </button>
+                                <pre><code>./start.sh phi-3-mini-4k</code></pre>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="step ">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h3>Test Model</h3>
+                            <p>Make a test request to verify deployment</p>
+                            
+                            <div class="code-block">
+                                <button class="copy-button" onclick="copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy</span>
+                                </button>
+                                <pre><code>curl -X POST http://localhost:8000/generate \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"inputs": "Hello, how are you?", "parameters": {"max_new_tokens": 50}}'
+</code></pre>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({ startOnLoad: true });
+
+function copyCode(button) {
+    const codeBlock = button.closest('.code-block').querySelector('code');
+    navigator.clipboard.writeText(codeBlock.textContent);
+    
+    const originalText = button.querySelector('.copy-text').textContent;
+    button.querySelector('.copy-text').textContent = 'Copied!';
+    setTimeout(() => {
+        button.querySelector('.copy-text').textContent = originalText;
+    }, 2000);
+}
+</script> 
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Made with ♥ by the Tiber AI Community</p>
+        </div>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,103 @@
+name: openhermes-mistral
+title: OpenHermes Mistral
+model_id: teknium/OpenHermes-Mistral
+description: "Teknium's OpenHermes-Mistral running on Text Generation Inference (TGI). A Mistral-based model known for its efficient performance and strong reasoning capabilities."
+
+license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page."
+
+# TGI specific configuration
+tgi: true
+architecture_diagram: |
+  flowchart LR
+      Client([Client])
+      Traefik[Traefik Proxy]
+      Auth[Auth Service]
+      TGI[TGI Service]
+
+      Client --> Traefik
+      Traefik --> Auth
+      Auth --> Traefik
+      Traefik --> TGI
+      TGI --> Traefik
+      Traefik --> Client
+
+      subgraph Internal["Internal Network"]
+          Traefik
+          Auth
+          TGI
+      end
+
+key_features:
+  - "🔒 Token-based authentication with automatic ban after failed attempts"
+  - "🚦 Rate limiting (global: 10 req/s, per-IP: 10 req/s)"
+  - "🛡️ Security headers and IP protection"
+  - "🔄 Health monitoring and automatic recovery"
+  - "🚀 Optimized for Intel GPUs"
+
+# Model specific information
+context_window: "8192 tokens"
+strengths:
+  - "Efficient reasoning"
+  - "Balanced responses"
+  - "Instruction following"
+  - "Technical explanations"
+
+use_cases:
+  - "Technical explanations"
+  - "Logical reasoning"
+  - "Code assistance"
+  - "General knowledge tasks"
+
+configuration: |
+  MODEL_NAME=openhermes-mistral-tgi
+  MODEL_ID=teknium/OpenHermes-Mistral
+  TGI_VERSION=2.4.0-intel-xpu
+  PORT=8086
+  SHM_SIZE=2g
+  MAX_CONCURRENT_REQUESTS=1
+  MAX_BATCH_SIZE=1
+  MAX_TOTAL_TOKENS=8192
+  MAX_INPUT_LENGTH=4096
+  MAX_WAITING_TOKENS=10
+
+# Tags for filtering
+tags:
+  - label: "Transformer"
+    color: "#3B82F6"
+  - label: "8K context"
+    color: "#10B981"
+  - label: "Instruction"
+    color: "#8B5CF6"
+  - label: "TGI"
+    color: "#EF4444"
+  - label: "Mistral"
+    color: "#EC4899"
+
+deployment_steps:
+  - title: "Create Account"
+    description: "Create a standard account on Intel Tiber AI Cloud"
+    link: "https://cloud.intel.com"
+    link_text: "Visit Intel Cloud Portal"
+
+  - title: "Select Hardware"
+    description: "Select an Intel Data Center Max Series GPU VM"
+
+  - title: "Clone Repository"
+    description: "Clone the TGI repository"
+    code: "git clone https://github.com/tiberaicommunity/xpu_tgi"
+
+  - title: "Generate Token"
+    description: "Generate authentication token for secure access"
+    code: "python utils/generate_token.py"
+
+  - title: "Start Model"
+    description: "Start the OpenHermes model"
+    code: "./start.sh openhermes-mistral"
+
+  - title: "Test Model"
+    description: "Make a test request to verify deployment"
+    code: |
+      curl -X POST http://localhost:8086/generate \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{"inputs": "Explain the concept of recursion:", "parameters": {"max_new_tokens": 50}}' 

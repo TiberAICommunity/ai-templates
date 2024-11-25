@@ -1,0 +1,62 @@
+---
+layout: default
+title: Home
+---
+
+<div class="hero">
+    <div class="container">
+        <h1>AI Templates</h1>
+        <p>Deploy AI models on <a href="https://cloud.intel.com" target="_blank" class="tiber-link">Intel Tiber AI cloud</a> with ease</p>
+        <div class="search-container">
+            <div class="search-box">
+                <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" id="modelSearch" placeholder="Search models...">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="category-filters">
+        <button class="filter-btn active" data-category="all">All Models</button>
+        <button class="filter-btn" data-category="LLM">LLMs</button>
+        <button class="filter-btn" data-category="Code LLM">Code Models</button>
+    </div>
+    
+    <div class="active-tags">
+        <!-- Active tags will be inserted here by JavaScript -->
+    </div>
+    
+    <div class="models-grid">
+        {% assign models = site.data.model_list.models %}
+        {% for model in models %}
+        <div class="model-card" data-category="{{ model.category }}">
+            <a href="{{ '/model/' | append: model.name | downcase | replace: ' ', '-' | relative_url }}" class="model-title">
+                <h3>{{ model.name }}</h3>
+            </a>
+            <p>{{ model.description }}</p>
+            <div class="tags">
+                {% for tag in model.tags %}
+                <span class="tag" style="background: {{ tag.color }}20; color: {{ tag.color }}">
+                    {{ tag.label }}
+                </span>
+                {% endfor %}
+            </div>
+            <a href="{{ '/model/' | append: model.name | downcase | replace: ' ', '-' | relative_url }}" class="view-details">
+                View Details
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p>Made with ❤️ by the Tiber AI Community</p>
+    </div>
+</footer>

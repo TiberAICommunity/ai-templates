@@ -1,0 +1,139 @@
+---
+layout: default
+---
+
+{% assign model = site.data.models[page.model] %}
+
+<div class="model-detail-container">
+    <div class="model-content-split">
+        <!-- Left section (60%) -->
+        <div class="model-description">
+            <!-- Quick Overview Section -->
+            <div class="model-header">
+                <h1>{{ model.title }}</h1>
+                <div class="model-tags">
+                    {% for tag in model.tags %}
+                    <span class="tag" style="background-color: {{ tag.color }}20; color: {{ tag.color }}">
+                        {{ tag.label }}
+                    </span>
+                    {% endfor %}
+                </div>
+                <p class="model-intro">{{ model.description }}</p>
+                {% if model.license_notice %}
+                <div class="license-notice">
+                    ⚠️ {{ model.license_notice }}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Key Information Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>📊 Model Specs</h3>
+                    <ul>
+                        <li><strong>Model ID:</strong> {{ model.model_id }}</li>
+                        <li><strong>Context Window:</strong> {{ model.context_window }}</li>
+                        <li><strong>Hardware:</strong> Intel Data Center GPU Max Series</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>💪 Strengths</h3>
+                    <ul>
+                        {% for strength in model.strengths %}
+                        <li>{{ strength }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 Use Cases</h3>
+                    <ul>
+                        {% for use_case in model.use_cases %}
+                        <li>{{ use_case }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            {% if model.tgi %}
+            <!-- Architecture Section -->
+            <section class="architecture-section">
+                <div class="section-header">
+                    <h2>Deployment Architecture</h2>
+                    <div class="architecture-notice">
+                        <div class="notice-icon">ℹ️</div>
+                        <div class="notice-content">
+                            <strong>Reference Architecture:</strong> This represents a recommended setup using the provided repository.
+                            Always review the latest documentation for your specific use case.
+                        </div>
+                    </div>
+                </div>
+                <div class="mermaid">
+                    {{ model.architecture_diagram }}
+                </div>
+                <div class="security-features">
+                    <h3>Security & Performance Features</h3>
+                    <div class="feature-grid">
+                        {% for feature in model.key_features %}
+                        <div class="feature-card">{{ feature }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+
+        <!-- Right section (40%) -->
+        <div class="deployment-steps">
+            <div class="sticky-content">
+                <div class="deployment-header">
+                    <h2>Quick Start Guide</h2>
+                    <p>Get up and running in minutes</p>
+                </div>
+                
+                <div class="progress-tracker">
+                    <div class="progress-bar"></div>
+                    {% for step in model.deployment_steps %}
+                    <div class="step {% if forloop.first %}active{% endif %}">
+                        <div class="step-number">{{ forloop.index }}</div>
+                        <div class="step-content">
+                            <h3>{{ step.title }}</h3>
+                            <p>{{ step.description }}</p>
+                            {% if step.code %}
+                            <div class="code-block">
+                                <button class="copy-button" onclick="copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy</span>
+                                </button>
+                                <pre><code>{{ step.code }}</code></pre>
+                            </div>
+                            {% endif %}
+                            {% if step.link %}
+                            <a href="{{ step.link }}" class="step-link" target="_blank">
+                                {{ step.link_text }} →
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({ startOnLoad: true });
+
+function copyCode(button) {
+    const codeBlock = button.closest('.code-block').querySelector('code');
+    navigator.clipboard.writeText(codeBlock.textContent);
+    
+    const originalText = button.querySelector('.copy-text').textContent;
+    button.querySelector('.copy-text').textContent = 'Copied!';
+    setTimeout(() => {
+        button.querySelector('.copy-text').textContent = originalText;
+    }, 2000);
+}
+</script> 
