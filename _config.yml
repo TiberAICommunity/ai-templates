@@ -1,6 +1,6 @@
 title: Tiber AI Community
 description: Deploy and run AI models on Intel Tiber AI cloud
-baseurl: "ai-templates"
+baseurl: "/ai-templates"
 url: "https://tiberaicommunity.github.io"
 
 # Build settings
