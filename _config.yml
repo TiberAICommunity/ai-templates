@@ -1,7 +1,7 @@
 title: Tiber AI Community
 description: Deploy and run LLM models on Intel Data Center GPUs
-baseurl: "intel-ai-templates.github.io"
-url: "https://rahulunair.github.io"
+baseurl: "ai-templates"
+url: "https://tiberaicommunity.github.io"
 
 # Build settings
 markdown: kramdown
