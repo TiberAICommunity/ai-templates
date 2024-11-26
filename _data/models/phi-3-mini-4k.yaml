@@ -1,7 +1,7 @@
 name: Phi-3-mini-4k
 title: Phi-3 mini 4k
 model_id: microsoft/Phi-3-mini-4k-instruct
-description: "Microsoft's Phi-3-mini-4k model running on Text Generation Inference (TGI). A compact yet powerful model optimized for reasoning, coding, and structured tasks."
+description: "Microsoft's Phi-3-mini-4k Instruct model running on Text Generation Inference (TGI). A compact yet powerful model optimized for reasoning, coding, and structured tasks."
 
 license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page."
 
