@@ -137,7 +137,7 @@ models:
 
   - name: "Llava Next"
     category: "Multimodal"
-    description: "Advanced multimodal model with enhanced visual understanding, OCR capabilities, and efficient processing based on Mistral-7B"
+    description: "Multimodal model with enhanced visual understanding, OCR capabilities, and efficient processing based on Mistral-7B"
     tags:
       - type: "architecture"
         label: "Multimodal"
