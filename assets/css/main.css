@@ -58,7 +58,7 @@ body {
 
 .hero {
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    padding: 4rem 0 3rem;
+    padding: 2rem 0 2rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -82,10 +82,10 @@ body {
 
 .hero h1 {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: white;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     letter-spacing: -0.02em;
     line-height: 1.2;
     position: relative;
@@ -94,10 +94,10 @@ body {
 }
 
 .hero p {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: rgba(255, 255, 255, 0.9);
     max-width: 600px;
-    margin: 0 auto 2rem;
+    margin: 0 auto 1rem;
     line-height: 1.6;
     position: relative;
     z-index: 1;
@@ -146,7 +146,7 @@ body {
 }
 
 .category-filters {
-    margin: 3rem 0 2rem;
+    margin: 2rem 0 1.5rem;
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
@@ -291,11 +291,11 @@ body {
 
 @media (max-width: 768px) {
     .hero {
-        padding: 3rem 0 2rem;
+        padding: 2rem 0 1.5rem;
     }
 
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     .models-grid {
