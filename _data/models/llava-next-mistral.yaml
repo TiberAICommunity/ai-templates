@@ -1,7 +1,7 @@
 name: llava-next-mistral
-title: LLaVa-Next Mistral
+title: LLaVa Next Mistral
 model_id: llava-hf/llava-v1.6-mistral-7b-hf
-description: "LLaVA-NeXT model running on Mistral-7B base, offering enhanced visual understanding, OCR capabilities, and efficient multimodal processing."
+description: "Advanced multimodal model with enhanced visual understanding, OCR capabilities, and efficient processing based on Mistral-7B"
 
 license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page."
 
@@ -33,31 +33,29 @@ key_features:
   - "🛡️ Security headers and IP protection"
   - "🔄 Health monitoring and automatic recovery"
   - "🚀 Optimized for Intel GPUs"
-  - "👁️ Enhanced visual understanding capabilities"
-  - "📝 Improved OCR performance"
 
 # Model specific information
 context_window: "4096 tokens"
 strengths:
   - "Efficient multimodal processing"
   - "Strong OCR capabilities"
-  - "Visual reasoning"
-  - "Spatial understanding"
+  - "Improved visual reasoning"
+  - "Lower memory requirements"
 
 use_cases:
   - "Image analysis"
-  - "Visual QA"
   - "OCR tasks"
-  - "Scene understanding"
+  - "Visual question answering"
+  - "Document understanding"
 
 configuration: |
-  MODEL_NAME=llava-v1.6-mistral-7b-hf-tgi
+  MODEL_NAME=llava-next-mistral-tgi
   MODEL_ID=llava-hf/llava-v1.6-mistral-7b-hf
-  TGI_VERSION=latest-intel-xpu
-  PORT=8088
-  SHM_SIZE=8g
-  MAX_CONCURRENT_REQUESTS=128
-  MAX_BATCH_SIZE=4
+  TGI_VERSION=2.4.0-intel-xpu
+  PORT=8087
+  SHM_SIZE=2g
+  MAX_CONCURRENT_REQUESTS=1
+  MAX_BATCH_SIZE=1
   MAX_TOTAL_TOKENS=4096
   MAX_INPUT_LENGTH=2048
   MAX_WAITING_TOKENS=10
@@ -77,7 +75,8 @@ deployment_steps:
 
   - title: "Start Model"
     description: "Launch model service using your generated token"
-    code: "VALID_TOKEN=YOUR_TOKEN ./start.sh llava-v1.6-mistral-7b-hf --cache-models"
+    code: |
+      VALID_TOKEN=YOUR_TOKEN ./start.sh llava-v1.6-mistral-7b-hf
 
 tags:
   - label: "Multimodal"
