@@ -3,7 +3,7 @@ title: Flan-UL2
 model_id: google/flan-ul2
 description: "Google's Flan-UL2 model running on Text Generation Inference (TGI) on Intel XPU. Flan-UL2 excels at instruction-following tasks like translation, summarization, and question answering."
 
-license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page. Ensure your use case complies with the model's terms of use and check for any commercial usage restrictions."
+license_notice: "Before using this model, please review the license terms and usage rights on the [Hugging Face model page](https://huggingface.co/google/flan-ul2). Ensure your use case complies with the model's terms of use and check for any commercial usage restrictions."
 
 # TGI specific configuration
 tgi: true
