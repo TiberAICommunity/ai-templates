@@ -72,51 +72,41 @@ tags:
     color: "#EF4444"
 
 deployment_steps:
-  - title: "Create Account"
-    description: "Create a standard account on Intel Tiber AI Cloud"
+  - title: "Setup Prerequisites"
+    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
     link: "https://cloud.intel.com"
     link_text: "Visit Intel Cloud Portal"
 
-  - title: "Select Hardware"
-    description: "Select an Intel Data Center Max Series GPU VM"
-
-  - title: "Clone Repository"
-    description: "Clone the TGI repository and navigate to it"
+  - title: "Initial Setup"
+    description: "Clone repository and generate your authentication token"
     code: |
-      git clone https://github.com/tiberaicommunity/xpu_tgi
-      cd xpu_tgi
-
-  - title: "Generate Token"
-    description: "Generate authentication token for secure access using the provided utility"
-    code: "python utils/generate_token.py"
+      git clone https://github.com/tiberaicommunity/xpu_tgi && cd xpu_tgi
+      python utils/generate_token.py
+      # Save the generated token for next step
 
   - title: "Start Model"
-    description: "Start the Phi-3 128k model service with caching enabled using your generated token"
+    description: "Launch model service using your generated token"
     code: "VALID_TOKEN=YOUR_TOKEN ./start.sh Phi-3-mini-128k --cache-models"
 
-  - title: "Access Options"
-    description: "Choose one of these methods to interact with the model:"
-    sub_steps:
-      - title: "Local Access"
-        description: "Use localhost directly if running on the same machine"
-        code: |
-          curl -X POST http://localhost:8000/generate \
-            -H 'Content-Type: application/json' \
-            -H 'Authorization: Bearer YOUR_TOKEN' \
-            -d '{"inputs": "Analyze this long document: The history of artificial intelligence..."}'
+  - title: "Access Option: Local"
+    description: "Use localhost directly if running on the same machine"
+    code: |
+      curl -X POST http://localhost:8000/generate \
+        -H 'Content-Type: application/json' \
+        -H 'Authorization: Bearer YOUR_TOKEN' \
+        -d '{"inputs": "Analyze this long document: The history of artificial intelligence began in antiquity..."}'
 
-      - title: "SSH Tunnel"
-        description: "Add '-L 8000:localhost:8000' to your SSH connection to access from your local machine"
-        code: "ssh -L 8000:localhost:8000 guest@guest-ip user@your-vm-ip"
+  - title: "Access Option: Local Tunnel"
+    description: "Use SSH tunnel to access from your local machine"
+    code: "ssh -L 8000:localhost:8000 guest@guest-ip user@your-vm-ip"
 
-      - title: "Temporary URL"
-        description: "Use the provided tunnel script to create a temporary public URL using cloudflare (eval only)"
-        code: |
-          # In a new terminal:
-          ./tunnel.sh
-
-          # Then use the generated cloudflare URL:
-          curl -X POST https://YOUR-TUNNEL-URL/generate \
-            -H 'Content-Type: application/json' \
-            -H 'Authorization: Bearer YOUR_TOKEN' \
-            -d '{"inputs": "Analyze this long document: The history of artificial intelligence..."}'
+  - title: "Access Option: Remote (Eval Only)"
+    description: "Create temporary cloudflare tunnel for remote access"
+    code: |
+      ./tunnel.sh  # Run in new terminal
+      
+      # Use the generated URL:
+      curl -X POST https://YOUR-TUNNEL-URL/generate \
+        -H 'Content-Type: application/json' \
+        -H 'Authorization: Bearer YOUR_TOKEN' \
+        -d '{"inputs": "Analyze this long document: The history of artificial intelligence began in antiquity..."}'

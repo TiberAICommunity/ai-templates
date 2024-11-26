@@ -61,33 +61,44 @@ configuration: |
   MAX_WAITING_TOKENS=10
 
 deployment_steps:
-  - title: "Create Account"
-    description: "Create a standard account on Intel Tiber AI Cloud"
+  - title: "Setup Prerequisites"
+    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
     link: "https://cloud.intel.com"
     link_text: "Visit Intel Cloud Portal"
 
-  - title: "Select Hardware"
-    description: "Select an Intel Data Center Max Series GPU VM"
-
-  - title: "Clone Repository"
-    description: "Clone the TGI repository"
-    code: "git clone https://github.com/tiberaicommunity/xpu_tgi"
-
-  - title: "Generate Token"
-    description: "Generate authentication token for secure access"
-    code: "python utils/generate_token.py"
+  - title: "Initial Setup"
+    description: "Clone repository and generate your authentication token"
+    code: |
+      git clone https://github.com/tiberaicommunity/xpu_tgi && cd xpu_tgi
+      python utils/generate_token.py
+      # Save the generated token for next step
 
   - title: "Start Model"
-    description: "Start the Hermes-2 model"
-    code: "./start.sh Hermes-2-pro"
+    description: "Launch model service using your generated token"
+    code: "VALID_TOKEN=YOUR_TOKEN ./start.sh Hermes-2-pro --cache-models"
 
-  - title: "Test Model"
-    description: "Make a test request to verify deployment"
+  - title: "Access Option: Local"
+    description: "Use localhost directly if running on the same machine"
     code: |
       curl -X POST http://localhost:8000/generate \
-        -H "Authorization: Bearer YOUR_TOKEN" \
-        -H "Content-Type: application/json" \
-        -d '{"inputs": "Explain quantum computing in simple terms:", "parameters": {"max_new_tokens": 50}}'
+        -H 'Content-Type: application/json' \
+        -H 'Authorization: Bearer YOUR_TOKEN' \
+        -d '{"inputs": "Explain the concept of neural networks in simple terms:"}'
+
+  - title: "Access Option: Local Tunnel"
+    description: "Use SSH tunnel to access from your local machine"
+    code: "ssh -L 8000:localhost:8000 guest@guest-ip user@your-vm-ip"
+
+  - title: "Access Option: Remote (Eval Only)"
+    description: "Create temporary cloudflare tunnel for remote access"
+    code: |
+      ./tunnel.sh  # Run in new terminal
+      
+      # Use the generated URL:
+      curl -X POST https://YOUR-TUNNEL-URL/generate \
+        -H 'Content-Type: application/json' \
+        -H 'Authorization: Bearer YOUR_TOKEN' \
+        -d '{"inputs": "Explain the concept of neural networks in simple terms:"}'
 
 # Tags for filtering
 tags:
