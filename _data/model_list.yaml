@@ -83,7 +83,7 @@ models:
         label: "Professional"
         color: "#F59E0B"
 
-  - name: "Hermes 3 LLaMA 3.1"
+  - name: "hermes-3-llama3.1"
     category: "LLM"
     description: "Latest Hermes model based on LLaMA 3.1 architecture with enhanced performance"
     tags:
