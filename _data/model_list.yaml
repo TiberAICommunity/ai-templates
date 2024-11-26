@@ -12,6 +12,9 @@ models:
       - type: "type"
         label: "Instruction"
         color: "#8B5CF6"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
 
   - name: "Phi 3 mini 128k"
     category: "LLM"
@@ -26,6 +29,9 @@ models:
       - type: "type"
         label: "Long Context"
         color: "#F59E0B"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
 
   - name: "CodeLlama 7b Instruct"
     category: "Code LLM"
@@ -40,6 +46,9 @@ models:
       - type: "type"
         label: "Code"
         color: "#3B82F6"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
 
   - name: "Flan T5 XXL"
     category: "LLM"
@@ -54,6 +63,9 @@ models:
       - type: "type"
         label: "Instruction"
         color: "#8B5CF6"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
 
   - name: "Flan UL2"
     category: "LLM"
@@ -68,6 +80,9 @@ models:
       - type: "type"
         label: "Instruction"
         color: "#8B5CF6"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
 
   - name: "Hermes 2 Pro"
     category: "LLM"
@@ -82,6 +97,9 @@ models:
       - type: "type"
         label: "Professional"
         color: "#F59E0B"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
 
   - name: "Hermes 3 Llama 3.1"
     category: "LLM"
@@ -96,6 +114,9 @@ models:
       - type: "type"
         label: "Advanced"
         color: "#3B82F6"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
 
   - name: "OpenHermes Mistral"
     category: "LLM"
@@ -110,3 +131,6 @@ models:
       - type: "framework"
         label: "Hermes"
         color: "#6366F1"
+      - type: "hardware"
+        label: "GPU Max VM"
+        color: "#DC2626"
