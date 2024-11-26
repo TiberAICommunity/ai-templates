@@ -1,4 +1,4 @@
-name: hermes-3-llama3
+name: hermes-3-llama3.1
 title: Hermes-3 LLaMA 3.1
 model_id: NousResearch/Hermes-3-llama3.1
 description: "NousResearch's Hermes-3 based on Llama3.1 running on Text Generation Inference (TGI). An advanced model offering improved reasoning, coding, and general task performance."
@@ -79,7 +79,7 @@ deployment_steps:
 
   - title: "Start Model"
     description: "Start the Hermes-3 model"
-    code: "./start.sh hermes-3-llama3"
+    code: "./start.sh Hermes-3-llama3.1"
 
   - title: "Test Model"
     description: "Make a test request to verify deployment"

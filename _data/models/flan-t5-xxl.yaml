@@ -46,7 +46,7 @@ deployment_steps:
 
   - title: "Start Model"
     description: "Start the FLAN-T5 model"
-    code: "./start.sh flan-t5-xxl"
+    code: "./start.sh Flan-T5-XXL"
 
   - title: "Test Model"
     description: "Make a test request to verify deployment"

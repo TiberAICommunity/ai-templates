@@ -79,7 +79,7 @@ deployment_steps:
 
   - title: "Start Model"
     description: "Start the Hermes-2 model"
-    code: "./start.sh hermes-2-pro"
+    code: "./start.sh Hermes-2-pro"
 
   - title: "Test Model"
     description: "Make a test request to verify deployment"

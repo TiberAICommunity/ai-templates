@@ -79,7 +79,7 @@ deployment_steps:
 
   - title: "Start Model"
     description: "Start the FLAN-UL2 model"
-    code: "./start.sh flan-ul2"
+    code: "./start.sh Flan-Ul2"
 
   - title: "Test Model"
     description: "Make a test request to verify deployment"

@@ -46,7 +46,7 @@ deployment_steps:
 
   - title: "Start Model"
     description: "Start the CodeLlama model"
-    code: "./start.sh codellama-7b-instruct"
+    code: "./start.sh CodeLlama-7b"
 
   - title: "Test Model"
     description: "Make a test request to verify deployment"

@@ -110,7 +110,7 @@ deployment_steps:
 
   - title: "Start Model"
     description: "Start the Phi-3 model"
-    code: "./start.sh phi-3-mini-4k"
+    code: "./start.sh Phi-3-mini-4k"
 
   - title: "Test Model"
     description: "Make a test request to verify deployment"
