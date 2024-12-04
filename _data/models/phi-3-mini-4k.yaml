@@ -1,56 +1,25 @@
 name: Phi-3-mini-4k
 title: Phi-3 mini 4k
 model_id: microsoft/Phi-3-mini-4k-instruct
-description: "Microsoft's Phi-3-mini-4k Instruct model running on Text Generation Inference (TGI). A compact yet powerful model optimized for reasoning, coding, and structured tasks."
+description: "Microsoft's Phi-3-mini-4k Instruct model running on Text Generation Inference (TGI). A compact yet powerful model optimized for reasoning, coding, and structured tasks. For multi-GPU deployments and advanced configurations, please visit our GitHub repository."
 
-license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page."
+license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page. This deployment supports single and multi-GPU setups - see repository for advanced deployment options."
 
-# System Requirements and Scaling
-requirements:
-  minimum:
-    - "Intel Data Center GPU Max (PVC)"
-    - "Ubuntu 22.04 LTS"
-    - "32GB System RAM"
-    - "100GB Storage"
-    - "Docker & Docker Compose"
-  recommended:
-    - "64GB+ System RAM for larger models"
-    - "Multiple GPUs for running multiple models"
+context_window: "4096 tokens"
+hardware_required: "Intel Max Series GPU (1100) VM - supports single/multi GPU deployments"
 
-scaling_options:
-  - "Single GPU: One model per GPU"
-  - "Multi-GPU: Deploy different models on separate GPUs"
-  - "Load Balancing: Automatic GPU selection based on availability"
+strengths:
+  - "Code generation"
+  - "Step-by-step reasoning"
+  - "Math problems"
+  - "Technical explanations"
 
-additional_resources:
-  - title: "GitHub Repository"
-    url: "https://github.com/tiberaicommunity/xpu_tgi"
-    description: "Source code and detailed documentation"
-    features:
-      - "Manual deployment guides"
-      - "Multi-model deployment"
-      - "Advanced configuration options"
-      - "Troubleshooting guides"
+use_cases:
+  - "Writing and debugging code"
+  - "Solving mathematical problems"
+  - "Explaining technical concepts"
+  - "Logical reasoning tasks"
 
-  - title: "Advanced Use Cases"
-    description: "Check the repository for:"
-    items:
-      - "Custom model configuration"
-      - "Multiple model deployments"
-      - "GPU management strategies"
-      - "Production deployment guides"
-
-deployment_modes:
-  - title: "Quick Deploy"
-    description: "Single command deployment (recommended for single models)"
-    suitable_for: ["Testing", "Single model deployments", "Quick evaluation"]
-
-  - title: "Manual Deploy"
-    description: "Step-by-step deployment from repository"
-    suitable_for: ["Multiple models", "Custom configurations", "Production setups"]
-    link: "https://github.com/tiberaicommunity/xpu_tgi#manual-deployment"
-
-# TGI specific configuration
 tgi: true
 architecture_diagram: |
   flowchart LR
@@ -77,21 +46,7 @@ key_features:
   - "🚦 Rate limiting (global: 10 req/s, per-IP: 10 req/s)"
   - "🛡️ Security headers and IP protection"
   - "🔄 Health monitoring and automatic recovery"
-  - "🚀 Optimized for Intel GPUs"
-
-# Model specific information
-context_window: "4096 tokens"
-strengths:
-  - "Code generation"
-  - "Step-by-step reasoning"
-  - "Math problems"
-  - "Technical explanations"
-
-use_cases:
-  - "Writing and debugging code"
-  - "Solving mathematical problems"
-  - "Explaining technical concepts"
-  - "Logical reasoning tasks"
+  - "🚀 Optimized for Intel GPUs with multi-GPU support"
 
 deployment_steps:
   - title: "1. Setup Prerequisites"
@@ -100,7 +55,7 @@ deployment_steps:
     link_text: "Visit Intel Cloud Portal"
 
   - title: "2. Quick Deploy (Recommended)"
-    description: "Deploy the model with a single command"
+    description: "Deploy the model with a single command (see repository for multi-GPU deployments)"
     code: |
       curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh \
         | bash -s -- Phi-3-mini-4k
@@ -131,39 +86,6 @@ deployment_steps:
       # Stop services
       ./service_cleanup.sh --all     # Stop all services
       ./service_cleanup.sh --gpu N   # Stop specific GPU
-
-examples:
-  - title: "Code Generation"
-    code: |
-      curl -X POST http://localhost:8000/phi-3-mini-4k/gpu0/generate \
-        -H "Authorization: Bearer YOUR_TOKEN" \
-        -H 'Content-Type: application/json' \
-        -d '{
-          "inputs": "Write a Python function that calculates the factorial of a number. Include comments explaining the logic:",
-          "parameters": {
-            "max_new_tokens": 150,
-            "temperature": 0.2
-          }
-        }'
-
-  - title: "Step-by-Step Math"
-    code: |
-      curl -X POST http://localhost:8000/phi-3-mini-4k/gpu0/generate \
-        -H "Authorization: Bearer YOUR_TOKEN" \
-        -H 'Content-Type: application/json' \
-        -d '{
-          "inputs": "Solve step by step: A store offers a 15% discount on a $80 item. What is the final price after tax if the tax rate is 8%?",
-          "parameters": {
-            "max_new_tokens": 200,
-            "temperature": 0.1
-          }
-        }'
-
-best_practices:
-  - "Use temperature 0.1-0.2 for code and math"
-  - "Include 'step by step' for complex problems"
-  - "For coding tasks, specify programming language, desired functionality, and any specific requirements"
-  - "Break down complex queries into smaller, logical steps"
 
 # Tags for filtering
 tags:
