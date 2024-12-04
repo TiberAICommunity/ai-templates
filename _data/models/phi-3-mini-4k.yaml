@@ -48,22 +48,88 @@ use_cases:
   - "Explaining technical concepts"
   - "Logical reasoning tasks"
 
-configuration: |
-  MODEL_NAME=phi-3-mini-4k-tgi
-  MODEL_ID=microsoft/Phi-3-mini-4k-instruct
-  TGI_VERSION=2.4.0-intel-xpu
-  PORT=8081
-  SHM_SIZE=2g
-  MAX_CONCURRENT_REQUESTS=1
-  MAX_BATCH_SIZE=1
-  MAX_TOTAL_TOKENS=4096
-  MAX_INPUT_LENGTH=2048
-  MAX_WAITING_TOKENS=10
+deployment_steps:
+  - title: "Setup Cloud Environment"
+    description: "Create Intel Tiber AI Cloud account and provision a GPU Max VM"
+    subsections:
+      - title: "Create Account"
+        description: "Sign up for Intel Tiber AI Cloud"
+        code: |
+          # Visit Intel Cloud Portal and create account
+          https://cloud.intel.com
+          
+          # Select GPU Max VM with recommended specs:
+          # - OS: Ubuntu 22.04
+          # - GPU: Intel Data Center GPU Max
+          # - Memory: 32GB+ recommended
+
+      - title: "Connect to VM"
+        description: "SSH into your provisioned VM"
+        code: |
+          ssh user@your-vm-ip
+          # Replace user and your-vm-ip with your credentials
+
+  - title: "Quick Deploy (Recommended)"
+    description: "Deploy the model with a single command"
+    code: |
+      curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh | bash -s -- Phi-3-mini-4k
+
+  - title: "Access Options"
+    description: "Multiple ways to access your deployed model"
+    subsections:
+      - title: "Local Access"
+        description: "Direct access on the same machine"
+        code: |
+          # Your authentication token will be displayed after deployment
+          # Use it in your requests:
+          
+          curl -X POST http://localhost:8000/generate \
+            -H "Authorization: Bearer YOUR_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "inputs": "Write a Python function that calculates factorial:",
+              "parameters": {
+                "max_new_tokens": 150,
+                "temperature": 0.2
+              }
+            }'
+
+      - title: "Remote Access (Evaluation)"
+        description: "Temporary public URL for testing"
+        code: |
+          # In a new terminal on the VM:
+          ./tunnel.sh
+          
+          # Use the generated URL with your token:
+          curl -X POST https://YOUR-TUNNEL-URL/generate \
+            -H "Authorization: Bearer YOUR_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"inputs": "Hello!"}'
+
+      - title: "SSH Tunnel (Recommended)"
+        description: "Secure remote access through SSH"
+        code: |
+          # On your local machine:
+          ssh -L 8000:localhost:8000 user@your-vm-ip
+          
+          # Then access via localhost:8000
+
+  - title: "Managing Services"
+    description: "Control and monitor your deployment"
+    subsections:
+      - title: "Check Status"
+        code: "./tgi-status.sh"
+
+      - title: "Stop Services"
+        code: |
+          ./service_cleanup.sh --all     # Stop all services
+          ./service_cleanup.sh --gpu N   # Stop specific GPU
 
 examples:
   - title: "Code Generation"
     code: |
       curl -X POST http://localhost:8000/generate \
+        -H "Authorization: Bearer YOUR_TOKEN" \
         -H 'Content-Type: application/json' \
         -d '{
           "inputs": "Write a Python function that calculates the factorial of a number. Include comments explaining the logic:",
@@ -76,6 +142,7 @@ examples:
   - title: "Step-by-Step Math"
     code: |
       curl -X POST http://localhost:8000/generate \
+        -H "Authorization: Bearer YOUR_TOKEN" \
         -H 'Content-Type: application/json' \
         -d '{
           "inputs": "Solve step by step: A store offers a 15% discount on a $80 item. What is the final price after tax if the tax rate is 8%?",
@@ -91,46 +158,6 @@ best_practices:
   - "For coding tasks, specify programming language, desired functionality, and any specific requirements"
   - "Break down complex queries into smaller, logical steps"
 
-deployment_steps:
-  - title: "Setup Prerequisites"
-    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
-    link: "https://cloud.intel.com"
-    link_text: "Visit Intel Cloud Portal"
-
-  - title: "Initial Setup"
-    description: "Clone repository and generate your authentication token"
-    code: |
-      git clone https://github.com/tiberaicommunity/xpu_tgi && cd xpu_tgi
-      python utils/generate_token.py
-      # Save the generated token for next step
-
-  - title: "Start Model"
-    description: "Launch model service using your generated token"
-    code: "VALID_TOKEN=YOUR_TOKEN ./start.sh Phi-3-mini-4k --cache-models"
-
-  - title: "Access Option: Local"
-    description: "Use localhost directly if running on the same machine"
-    code: |
-      curl -X POST http://localhost:8000/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
-        -d '{"inputs": "Write a Python function to calculate factorial:"}'
-
-  - title: "Access Option: Local Tunnel"
-    description: "Use SSH tunnel to access from your local machine"
-    code: "ssh -L 8000:localhost:8000 guest@guest-ip user@your-vm-ip"
-
-  - title: "Access Option: Remote (Eval Only)"
-    description: "Create temporary cloudflare tunnel for remote access"
-    code: |
-      ./tunnel.sh  # Run in new terminal
-      
-      # Use the generated URL:
-      curl -X POST https://YOUR-TUNNEL-URL/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
-        -d '{"inputs": "Write a Python function to calculate factorial:"}'
-
 # Tags for filtering
 tags:
   - label: "Transformer"
@@ -140,4 +167,4 @@ tags:
   - label: "Instruction"
     color: "#8B5CF6"
   - label: "TGI"
-    color: "#EF4444" 
+    color: "#EF4444"
