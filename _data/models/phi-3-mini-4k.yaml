@@ -94,86 +94,48 @@ use_cases:
   - "Logical reasoning tasks"
 
 deployment_steps:
-  - title: "Setup Cloud Environment"
-    description: "Create Intel Tiber AI Cloud account and provision a GPU Max VM"
-    subsections:
-      - title: "Create Account"
-        description: "Sign up for Intel Tiber AI Cloud"
-        code: |
-          # Visit Intel Cloud Portal and create account
-          https://cloud.intel.com
-          
-          # Select GPU Max VM with recommended specs:
-          # - OS: Ubuntu 22.04
-          # - GPU: Intel Data Center GPU Max
-          # - Memory: 32GB+ recommended
+  - title: "1. Setup Prerequisites"
+    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
+    link: "https://cloud.intel.com"
+    link_text: "Visit Intel Cloud Portal"
 
-      - title: "Connect to VM"
-        description: "SSH into your provisioned VM"
-        code: |
-          ssh user@your-vm-ip
-          # Replace user and your-vm-ip with your credentials
-
-  - title: "Quick Deploy (Recommended)"
+  - title: "2. Quick Deploy (Recommended)"
     description: "Deploy the model with a single command"
     code: |
-      curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh | bash -s -- Phi-3-mini-4k
+      curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh \
+        | bash -s -- Phi-3-mini-4k
 
-  - title: "Access Options"
-    description: "Multiple ways to access your deployed model"
-    subsections:
-      - title: "Local Access"
-        description: "Direct access on the same machine"
-        code: |
-          # Your authentication token will be displayed after deployment
-          # Use it in your requests:
-          
-          curl -X POST http://localhost:8000/generate \
-            -H "Authorization: Bearer YOUR_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "inputs": "Write a Python function that calculates factorial:",
-              "parameters": {
-                "max_new_tokens": 150,
-                "temperature": 0.2
-              }
-            }'
+  - title: "3. Access Options"
+    description: "Multiple ways to access your deployed model (GPU number is automatically assigned, typically starting with gpu0)"
+    code: |
+      # Local Access (same machine):
+      curl -X POST http://localhost:8000/phi-3-mini-4k/gpu0/generate \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{"inputs": "Hello, how are you?"}'
 
-      - title: "Remote Access (Evaluation)"
-        description: "Temporary public URL for testing"
-        code: |
-          # In a new terminal on the VM:
-          ./tunnel.sh
-          
-          # Use the generated URL with your token:
-          curl -X POST https://YOUR-TUNNEL-URL/generate \
-            -H "Authorization: Bearer YOUR_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"inputs": "Hello!"}'
+      # Remote Access (evaluation only):
+      ./tunnel.sh  # Creates temporary public URL
+      # Then use: https://YOUR-TUNNEL-URL/phi-3-mini-4k/gpu0/generate
 
-      - title: "SSH Tunnel (Recommended)"
-        description: "Secure remote access through SSH"
-        code: |
-          # On your local machine:
-          ssh -L 8000:localhost:8000 user@your-vm-ip
-          
-          # Then access via localhost:8000
+      # SSH Tunnel (recommended):
+      ssh -L 8000:localhost:8000 -J guest@guest-ip user@your-vm-ip
+      # Then use: http://localhost:8000/phi-3-mini-4k/gpu0/generate
 
-  - title: "Managing Services"
+  - title: "4. Managing Services"
     description: "Control and monitor your deployment"
-    subsections:
-      - title: "Check Status"
-        code: "./tgi-status.sh"
+    code: |
+      # Check status
+      ./tgi-status.sh
 
-      - title: "Stop Services"
-        code: |
-          ./service_cleanup.sh --all     # Stop all services
-          ./service_cleanup.sh --gpu N   # Stop specific GPU
+      # Stop services
+      ./service_cleanup.sh --all     # Stop all services
+      ./service_cleanup.sh --gpu N   # Stop specific GPU
 
 examples:
   - title: "Code Generation"
     code: |
-      curl -X POST http://localhost:8000/generate \
+      curl -X POST http://localhost:8000/phi-3-mini-4k/gpu0/generate \
         -H "Authorization: Bearer YOUR_TOKEN" \
         -H 'Content-Type: application/json' \
         -d '{
@@ -186,7 +148,7 @@ examples:
 
   - title: "Step-by-Step Math"
     code: |
-      curl -X POST http://localhost:8000/generate \
+      curl -X POST http://localhost:8000/phi-3-mini-4k/gpu0/generate \
         -H "Authorization: Bearer YOUR_TOKEN" \
         -H 'Content-Type: application/json' \
         -d '{
