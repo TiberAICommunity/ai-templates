@@ -64,7 +64,7 @@ deployment_steps:
     code: |
       # Local Access (same machine):
       curl -X POST http://localhost:8000/phi-3-mini-4k/gpu0/generate \
-        -H "Authorization: Bearer YOUR_TOKEN" \
+        -H "Authorization: Bearer '{VALID_TOKEN}'" \
         -H "Content-Type: application/json" \
         -d '{"inputs": "Hello, how are you?"}'
 
@@ -83,8 +83,8 @@ deployment_steps:
       ./tgi-status.sh
 
       # Stop services
-      ./service_cleanup.sh --all     # Stop all services
-      ./service_cleanup.sh --gpu N   # Stop specific GPU
+      ./service_cleanup.sh                    # Stop all services
+      ./service_cleanup.sh --gpu N (or all)   # Stop specific GPU
 
 # Tags for filtering
 tags:
