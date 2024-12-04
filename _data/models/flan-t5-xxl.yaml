@@ -1,11 +1,26 @@
 name: flan-t5-xxl
 title: FLAN-T5 XXL
 model_id: google/flan-t5-xxl
-description: "Google's FLAN-T5-XXL running on Text Generation Inference (TGI). A powerful model specifically designed for instruction-following tasks with structured outputs."
+description: "Google's FLAN-T5-XXL running on Text Generation Inference (TGI). A powerful model specifically designed for instruction-following tasks with structured outputs. For multi-GPU deployments and advanced configurations, please visit our GitHub repository."
 
-license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page."
+license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page. This deployment supports single and multi-GPU setups - see <a href='https://github.com/tiberaicommunity/xpu_tgi' target='_blank'>our repository</a> for advanced deployment options."
 
-# TGI specific configuration
+context_window: "512 tokens"
+hardware_required: "Intel Max Series GPU (1100) VM - supports single/multi GPU deployments"
+
+strengths:
+  - "Structured tasks"
+  - "Classification"
+  - "Summarization"
+  - "Translation"
+
+use_cases:
+  - "Text classification"
+  - "Summarization"
+  - "Question answering"
+  - "Translation"
+  - "Structured generation"
+
 tgi: true
 architecture_diagram: |
   flowchart LR
@@ -27,81 +42,52 @@ architecture_diagram: |
           TGI
       end
 
-deployment_steps:
-  - title: "Setup Prerequisites"
-    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
-    link: "https://cloud.intel.com"
-    link_text: "Visit Intel Cloud Portal"
-
-  - title: "Initial Setup"
-    description: "Clone repository and generate your authentication token"
-    code: |
-      git clone https://github.com/tiberaicommunity/xpu_tgi && cd xpu_tgi
-      python utils/generate_token.py
-      # Save the generated token for next step
-
-  - title: "Start Model"
-    description: "Launch model service using your generated token"
-    code: "VALID_TOKEN=YOUR_TOKEN ./start.sh Flan-T5-XXL --cache-models"
-
-  - title: "Access Option: Local"
-    description: "Use localhost directly if running on the same machine"
-    code: |
-      curl -X POST http://localhost:8000/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
-        -d '{"inputs": "Translate to French: Hello, how are you today?"}'
-
-  - title: "Access Option: Local Tunnel"
-    description: "Use SSH tunnel to access from your local machine"
-    code: "ssh -L 8000:localhost:8000 guest@guest-ip user@your-vm-ip"
-
-  - title: "Access Option: Remote (Eval Only)"
-    description: "Create temporary cloudflare tunnel for remote access"
-    code: |
-      ./tunnel.sh  # Run in new terminal
-      
-      # Use the generated URL:
-      curl -X POST https://YOUR-TUNNEL-URL/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
-        -d '{"inputs": "Translate to French: Hello, how are you today?"}'
-
 key_features:
   - "🔒 Token-based authentication with automatic ban after failed attempts"
   - "🚦 Rate limiting (global: 10 req/s, per-IP: 10 req/s)"
   - "🛡️ Security headers and IP protection"
   - "🔄 Health monitoring and automatic recovery"
-  - "🚀 Optimized for Intel GPUs"
+  - "🚀 Optimized for Intel GPUs with multi-GPU support"
 
-# Model specific information
-context_window: "512 tokens"
-strengths:
-  - "Structured tasks"
-  - "Classification"
-  - "Summarization"
-  - "Translation"
+deployment_steps:
+  - title: "1. Setup Prerequisites"
+    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
+    link: "https://cloud.intel.com"
+    link_text: "Visit Intel Cloud Portal"
 
-use_cases:
-  - "Text classification"
-  - "Summarization"
-  - "Question answering"
-  - "Translation"
-  - "Structured generation"
+  - title: "2. Quick Deploy (Recommended)"
+    description: "Deploy the model with a single command (see repository for multi-GPU deployments)"
+    code: |
+      curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh \
+        | bash -s -- Flan-T5-XXL
 
-configuration: |
-  MODEL_NAME=flan-t5-xxl-tgi
-  MODEL_ID=google/flan-t5-xxl
-  TGI_VERSION=2.4.0-intel-xpu
-  PORT=8087
-  SHM_SIZE=2g
-  MAX_CONCURRENT_REQUESTS=1
-  MAX_BATCH_SIZE=1
-  MAX_TOTAL_TOKENS=512
-  MAX_INPUT_LENGTH=512
-  MAX_WAITING_TOKENS=10
+  - title: "3. Access Options"
+    description: "Multiple ways to access your deployed model (GPU number is automatically assigned, typically starting with gpu0)"
+    code: |
+      # Local Access (same machine):
+      curl -X POST http://localhost:8000/flan-t5-xxl/gpu0/generate \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{"inputs": "Translate to French: Hello, how are you today?"}'
 
-# Tags for filtering
+      # Remote Access (evaluation only):
+      ./tunnel.sh  # Creates temporary public URL
+      # Then use: https://YOUR-TUNNEL-URL/flan-t5-xxl/gpu0/generate
+
+      # SSH Tunnel (recommended):
+      ssh -L 8000:localhost:8000 -J guest@guest-ip user@your-vm-ip
+      # Then use: http://localhost:8000/flan-t5-xxl/gpu0/generate
+
+  - title: "4. Managing Services"
+    description: "Control and monitor your deployment"
+    code: |
+      # Check status
+      ./tgi-status.sh
+
+      # Stop services
+      ./service_cleanup.sh                    # Stop all services
+      ./service_cleanup.sh --gpu N (or all)   # Stop specific GPU or all GPUs
+
 tags:
   - label: "Transformer"
     color: "#3B82F6"
@@ -116,4 +102,4 @@ tags:
   - label: "T5"
     color: "#6366F1"
   - label: "Translation"
-    color: "#F472B6" 
+    color: "#F472B6"
