@@ -3,8 +3,7 @@ title: Phi-3 mini 4k
 model_id: microsoft/Phi-3-mini-4k-instruct
 description: "Microsoft's Phi-3-mini-4k Instruct model running on Text Generation Inference (TGI). A compact yet powerful model optimized for reasoning, coding, and structured tasks. For multi-GPU deployments and advanced configurations, please visit our GitHub repository."
 
-license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page. This deployment supports single and multi-GPU setups - see repository for advanced deployment options."
-
+license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page. This deployment supports single and multi-GPU setups - see <a href='https://github.com/tiberaicommunity/xpu_tgi' target='_blank'>our repository</a> for advanced deployment options."
 context_window: "4096 tokens"
 hardware_required: "Intel Max Series GPU (1100) VM - supports single/multi GPU deployments"
 
