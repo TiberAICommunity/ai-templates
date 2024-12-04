@@ -5,6 +5,51 @@ description: "Microsoft's Phi-3-mini-4k Instruct model running on Text Generatio
 
 license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page."
 
+# System Requirements and Scaling
+requirements:
+  minimum:
+    - "Intel Data Center GPU Max (PVC)"
+    - "Ubuntu 22.04 LTS"
+    - "32GB System RAM"
+    - "100GB Storage"
+    - "Docker & Docker Compose"
+  recommended:
+    - "64GB+ System RAM for larger models"
+    - "Multiple GPUs for running multiple models"
+
+scaling_options:
+  - "Single GPU: One model per GPU"
+  - "Multi-GPU: Deploy different models on separate GPUs"
+  - "Load Balancing: Automatic GPU selection based on availability"
+
+additional_resources:
+  - title: "GitHub Repository"
+    url: "https://github.com/tiberaicommunity/xpu_tgi"
+    description: "Source code and detailed documentation"
+    features:
+      - "Manual deployment guides"
+      - "Multi-model deployment"
+      - "Advanced configuration options"
+      - "Troubleshooting guides"
+
+  - title: "Advanced Use Cases"
+    description: "Check the repository for:"
+    items:
+      - "Custom model configuration"
+      - "Multiple model deployments"
+      - "GPU management strategies"
+      - "Production deployment guides"
+
+deployment_modes:
+  - title: "Quick Deploy"
+    description: "Single command deployment (recommended for single models)"
+    suitable_for: ["Testing", "Single model deployments", "Quick evaluation"]
+
+  - title: "Manual Deploy"
+    description: "Step-by-step deployment from repository"
+    suitable_for: ["Multiple models", "Custom configurations", "Production setups"]
+    link: "https://github.com/tiberaicommunity/xpu_tgi#manual-deployment"
+
 # TGI specific configuration
 tgi: true
 architecture_diagram: |
