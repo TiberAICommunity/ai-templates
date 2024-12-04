@@ -1,11 +1,25 @@
 name: flan-ul2
 title: Flan-UL2
 model_id: google/flan-ul2
-description: "Google's Flan-UL2 model running on Text Generation Inference (TGI) on Intel XPU. Flan-UL2 excels at instruction-following tasks like translation, summarization, and question answering."
+description: "Google's Flan-UL2 model running on Text Generation Inference (TGI) on Intel XPU. Flan-UL2 excels at instruction-following tasks like translation, summarization, and question answering. For multi-GPU deployments and advanced configurations, please visit our GitHub repository."
 
-license_notice: "Before using this model, please review the license terms and usage rights on the [Hugging Face model page](https://huggingface.co/google/flan-ul2). Ensure your use case complies with the model's terms of use and check for any commercial usage restrictions."
+license_notice: "Before using this model, please review the license terms and usage rights on the Hugging Face model page. This deployment supports single and multi-GPU setups - see <a href='https://github.com/tiberaicommunity/xpu_tgi' target='_blank'>our repository</a> for advanced deployment options."
 
-# TGI specific configuration
+context_window: "4096 tokens"
+hardware_required: "Intel Max Series GPU (1100) VM - supports single/multi GPU deployments"
+
+strengths:
+  - "Instruction following"
+  - "Translation tasks"
+  - "Text summarization"
+  - "Structured responses"
+
+use_cases:
+  - "Language translation"
+  - "Text summarization"
+  - "Question answering"
+  - "Classification tasks"
+
 tgi: true
 architecture_diagram: |
   flowchart LR
@@ -32,75 +46,47 @@ key_features:
   - "🚦 Rate limiting (global: 10 req/s, per-IP: 10 req/s)"
   - "🛡️ Security headers and IP protection"
   - "🔄 Health monitoring and automatic recovery"
-  - "🚀 Optimized for Intel GPUs"
-
-# Model specific information
-context_window: "4096 tokens"
-strengths:
-  - "Instruction following"
-  - "Translation tasks"
-  - "Text summarization"
-  - "Structured responses"
-
-use_cases:
-  - "Language translation"
-  - "Text summarization"
-  - "Question answering"
-  - "Classification tasks"
-
-configuration: |
-  MODEL_NAME=flan-ul2-tgi
-  MODEL_ID=google/flan-ul2
-  TGI_VERSION=2.4.0-intel-xpu
-  PORT=8083
-  SHM_SIZE=8g
-  MAX_CONCURRENT_REQUESTS=10
-  MAX_BATCH_SIZE=1
-  MAX_TOTAL_TOKENS=4096
-  MAX_INPUT_LENGTH=2039
-  MAX_WAITING_TOKENS=20
+  - "🚀 Optimized for Intel GPUs with multi-GPU support"
 
 deployment_steps:
-  - title: "Setup Prerequisites"
+  - title: "1. Setup Prerequisites"
     description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
     link: "https://cloud.intel.com"
     link_text: "Visit Intel Cloud Portal"
 
-  - title: "Initial Setup"
-    description: "Clone repository and generate your authentication token"
+  - title: "2. Quick Deploy (Recommended)"
+    description: "Deploy the model with a single command (see repository for multi-GPU deployments)"
     code: |
-      git clone https://github.com/tiberaicommunity/xpu_tgi && cd xpu_tgi
-      python utils/generate_token.py
-      # Save the generated token for next step
+      curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh \
+        | bash -s -- Flan-UL2
 
-  - title: "Start Model"
-    description: "Launch model service using your generated token"
-    code: "VALID_TOKEN=YOUR_TOKEN ./start.sh Flan-UL2 --cache-models"
-
-  - title: "Access Option: Local"
-    description: "Use localhost directly if running on the same machine"
+  - title: "3. Access Options"
+    description: "Multiple ways to access your deployed model (GPU number is automatically assigned, typically starting with gpu0)"
     code: |
-      curl -X POST http://localhost:8000/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
+      # Local Access (same machine):
+      curl -X POST http://localhost:8000/flan-ul2/gpu0/generate \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -H "Content-Type: application/json" \
         -d '{"inputs": "Summarize this text: The development of quantum computing represents a significant leap in computational capabilities..."}'
 
-  - title: "Access Option: Local Tunnel"
-    description: "Use SSH tunnel to access from your local machine"
-    code: "ssh -L 8000:localhost:8000 guest@guest-ip user@your-vm-ip"
+      # Remote Access (evaluation only):
+      ./tunnel.sh  # Creates temporary public URL
+      # Then use: https://YOUR-TUNNEL-URL/flan-ul2/gpu0/generate
 
-  - title: "Access Option: Remote (Eval Only)"
-    description: "Create temporary cloudflare tunnel for remote access"
+      # SSH Tunnel (recommended):
+      ssh -L 8000:localhost:8000 -J guest@guest-ip user@your-vm-ip
+      # Then use: http://localhost:8000/flan-ul2/gpu0/generate
+
+  - title: "4. Managing Services"
+    description: "Control and monitor your deployment"
     code: |
-      ./tunnel.sh  # Run in new terminal
-      
-      # Use the generated URL:
-      curl -X POST https://YOUR-TUNNEL-URL/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
-        -d '{"inputs": "Summarize this text: The development of quantum computing represents a significant leap in computational capabilities..."}'
+      # Check status
+      ./tgi-status.sh
 
-# Tags for filtering
+      # Stop services
+      ./service_cleanup.sh                    # Stop all services
+      ./service_cleanup.sh --gpu N (or all)   # Stop specific GPU or all GPUs
+
 tags:
   - label: "Transformer"
     color: "#3B82F6"
@@ -113,4 +99,4 @@ tags:
   - label: "Google"
     color: "#34D399"
   - label: "Translation"
-    color: "#F472B6" 
+    color: "#F472B6"
