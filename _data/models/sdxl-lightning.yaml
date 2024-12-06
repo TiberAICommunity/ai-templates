@@ -1,7 +1,7 @@
-name: stable-diffusion-xl
-title: Stable Diffusion XL
-model_id: stabilityai/stable-diffusion-xl-base-1.0
-description: "High-quality image generation model running on Intel XPU Ray Service. SDXL offers the highest quality image generation with 25 inference steps, optimized for Intel GPUs using Intel Extension for PyTorch and Ray Serve for deployment."
+name: sdxl-lightning
+title: SDXL Lightning
+model_id: ByteDance/SDXL-Lightning
+description: "4-step optimized SDXL model balancing speed and quality, using ByteDance's optimization techniques for efficient inference on Intel GPUs with Ray Serve deployment."
 
 license_notice: "Before using this model, please review the license terms and usage rights. This deployment supports single and multi-GPU setups - see <a href='https://github.com/rahulunair/xpu_ray' target='_blank'>our repository</a> for advanced deployment options."
 
@@ -9,22 +9,22 @@ context_window: "1024x1024 pixels"
 hardware_required: "Intel Max Series GPU - VM or Bare Metal configurations on Intel Tiber AI Cloud"
 
 strengths:
-  - "Highest quality image generation"
-  - "Advanced prompt understanding"
-  - "Detailed compositions"
+  - "Fast image generation"
+  - "4-step inference"
+  - "Quality-speed balance"
   - "Optimized for Intel GPUs"
 
 use_cases:
-  - "Professional art creation"
-  - "High-quality image generation"
-  - "Detailed visual content"
+  - "Rapid prototyping"
+  - "Batch processing"
+  - "Production workflows"
 
 model_specs:
-  steps: 25
-  guidance: 7.5
+  steps: 4
+  guidance: 0.0
   min_size: 512
   max_size: 1024
-  performance: "~1.5 images/sec on single GPU"
+  performance: "~8 images/sec on single GPU"
 
 architecture_diagram: |
   flowchart LR
@@ -32,14 +32,14 @@ architecture_diagram: |
       Traefik[Traefik Proxy]
       Auth[Auth Service]
       Ray[Ray Serve]
-      SDXL[SDXL Service]
+      Lightning[SDXL Lightning]
 
       Client --> Traefik
       Traefik --> Auth
       Auth --> Traefik
       Traefik --> Ray
-      Ray --> SDXL
-      SDXL --> Ray
+      Ray --> Lightning
+      Lightning --> Ray
       Ray --> Traefik
       Traefik --> Client
 
@@ -47,7 +47,7 @@ architecture_diagram: |
           Traefik
           Auth
           Ray
-          SDXL
+          Lightning
       end
 
 key_features:
@@ -55,9 +55,9 @@ key_features:
   - "🚦 Rate limiting: 30 req/s global (60 burst), 15 req/s per IP"
   - "🛡️ Security headers and IP protection"
   - "🔄 Health monitoring and automatic recovery"
-  - "🚀 Optimized for Intel GPUs with multi-GPU support"
+  - "🚀 Intel GPU optimization with multi-GPU support"
   - "⚡ Ray Serve for scaling and load balancing"
-  
+
 deployment_steps:
   - title: "1. Setup Prerequisites"
     description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
@@ -65,11 +65,11 @@ deployment_steps:
     link_text: "Visit Intel Cloud Portal"
 
   - title: "2. Deploy Service"
-    description: "Clone repository and deploy SDXL model with authentication"
+    description: "Clone repository and deploy SDXL Lightning model with authentication"
     code: |
       git clone https://github.com/rahulunair/xpu_ray.git && \
       cd xpu_ray && \
-      ./deploy.sh sdxl
+      ./deploy.sh sdxl-lightning
 
   - title: "3. Setup Authentication"
     description: "Configure authentication token"
@@ -86,8 +86,8 @@ deployment_steps:
         -d '{
           "prompt": "A serene landscape with mountains at sunset",
           "negative_prompt": "blurry, low quality",
-          "num_inference_steps": 25,
-          "guidance_scale": 7.5,
+          "num_inference_steps": 4,
+          "guidance_scale": 0.0,
           "width": 1024,
           "height": 1024
         }'
@@ -102,7 +102,7 @@ deployment_steps:
       ./cleanup.sh
 
       # Switch models
-      ./deploy.sh sdxl-turbo --skip-base
+      ./deploy.sh sdxl --skip-base
 
 tags:
   - label: "Diffusion"
@@ -113,5 +113,5 @@ tags:
     color: "#8B5CF6"
   - label: "Ray"
     color: "#F59E0B"
-  - label: "Production"
-    color: "#EF4444"
+  - label: "Fast"
+    color: "#EF4444" 
