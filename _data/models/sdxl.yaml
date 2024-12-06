@@ -1,0 +1,150 @@
+name: sdxl
+title: Stable Diffusion XL
+model_id: stabilityai/stable-diffusion-xl-base-1.0
+description: "High-quality image generation model running on Intel XPU Ray Service. SDXL offers the highest quality image generation with 25 inference steps, optimized for Intel GPUs using Intel Extension for PyTorch and Ray Serve for deployment."
+
+license_notice: "Before using this model, please review the license terms and usage rights. This deployment supports single and multi-GPU setups - see <a href='https://github.com/rahulunair/xpu_ray' target='_blank'>our repository</a> for advanced deployment options."
+
+context_window: "1024x1024 pixels"
+hardware_required: "Intel Max Series GPU - VM or Bare Metal configurations on Intel Tiber AI Cloud"
+
+strengths:
+  - "Highest quality image generation"
+  - "Advanced prompt understanding"
+  - "Detailed compositions"
+  - "Optimized for Intel GPUs"
+
+use_cases:
+  - "Professional art creation"
+  - "High-quality image generation"
+  - "Detailed visual content"
+  - "Production-grade deployments"
+
+model_specs:
+  steps: 25
+  guidance: 7.5
+  min_size: 512
+  max_size: 1024
+  performance: "~1.5 images/sec on single GPU"
+
+architecture_diagram: |
+  flowchart LR
+      Client([Client])
+      Traefik[Traefik Proxy]
+      Auth[Auth Service]
+      Ray[Ray Serve]
+      SDXL[SDXL Service]
+
+      Client --> Traefik
+      Traefik --> Auth
+      Auth --> Traefik
+      Traefik --> Ray
+      Ray --> SDXL
+      SDXL --> Ray
+      Ray --> Traefik
+      Traefik --> Client
+
+      subgraph Internal["Internal Network"]
+          Traefik
+          Auth
+          Ray
+          SDXL
+      end
+
+key_features:
+  - "🔒 Token-based authentication with automatic ban after failed attempts"
+  - "🚦 Rate limiting (global: 30 req/s, burst up to 60, per-IP: 15 req/s, burst up to 30)"
+  - "🛡️ Security headers and IP protection"
+  - "🔄 Health monitoring and automatic recovery"
+  - "🚀 Optimized for Intel GPUs with multi-GPU support"
+  - "⚡ Ray Serve for efficient scaling and load balancing"
+  - "💾 Automatic model caching in ${HOME}/.cache/huggingface"
+  - "📊 Performance monitoring and benchmarking tools"
+  - "🔄 Easy model switching without full restart"
+  - "⚖️ Load balancing with Traefik"
+  - "📝 Request queuing and efficient memory management"
+  
+deployment_steps:
+  - title: "1. Setup Prerequisites"
+    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
+    link: "https://cloud.intel.com"
+    link_text: "Visit Intel Cloud Portal"
+
+  - title: "2. Install Dependencies"
+    description: "Ensure system requirements are met"
+    code: |
+      # Update system
+      sudo apt update && sudo apt upgrade -y
+
+      # Install Docker and Docker Compose
+      sudo apt install docker.io docker-compose -y
+
+      # Add user to docker group
+      sudo usermod -aG docker $USER
+      newgrp docker
+
+  - title: "3. Clone Repository"
+    description: "Get the XPU Ray service code"
+    code: |
+      git clone https://github.com/rahulunair/xpu_ray.git
+      cd xpu_ray
+
+  - title: "4. Deploy Service"
+    description: "Deploy SDXL model with authentication"
+    code: |
+      ./deploy.sh sdxl
+
+  - title: "5. Setup Authentication"
+    description: "Configure authentication token"
+    code: |
+      source .auth_token.env
+      echo $VALID_TOKEN  # Verify token is set
+
+  - title: "6. Generate Images"
+    description: "Make requests to generate images"
+    code: |
+      curl -X POST http://localhost:8000/imagine/generate \
+        -H "Authorization: Bearer $VALID_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "prompt": "A serene landscape with mountains at sunset",
+          "negative_prompt": "blurry, low quality",
+          "num_inference_steps": 25,
+          "guidance_scale": 7.5,
+          "width": 1024,
+          "height": 1024
+        }'
+
+  - title: "7. Management Commands"
+    description: "Useful commands for managing the service"
+    code: |
+      # Monitor service
+      ./monitor_sd.sh
+
+      # View logs
+      docker compose logs -f
+
+      # Stop services
+      ./cleanup.sh
+
+      # Switch models without full restart
+      ./deploy.sh sdxl-turbo --skip-base  # Example for switching to turbo
+
+tags:
+  - label: "Diffusion"
+    color: "#3B82F6"
+  - label: "Image"
+    color: "#10B981"
+  - label: "SDXL"
+    color: "#8B5CF6"
+  - label: "Ray"
+    color: "#F59E0B"
+  - label: "Production"
+    color: "#EF4444"
+
+performance_notes: |
+  - Single GPU: ~1.5 images/sec
+  - Supports 15-20 users/minute per GPU
+  - 8-GPU system: ~100-120 users/minute
+  - Rate limits: 30 req/sec global, 15 req/sec per IP
+  - Automatic model caching in ${HOME}/.cache/huggingface 

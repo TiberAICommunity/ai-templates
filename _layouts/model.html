@@ -59,10 +59,21 @@ layout: default
                         {% endfor %}
                     </ul>
                 </div>
+                {% if model.model_specs %}
+                <div class="info-card">
+                    <h3>⚙️ Technical Specifications</h3>
+                    <ul>
+                        <li><strong>Steps:</strong> {{ model.model_specs.steps }}</li>
+                        <li><strong>Guidance Scale:</strong> {{ model.model_specs.guidance }}</li>
+                        <li><strong>Size Range:</strong> {{ model.model_specs.min_size }}x{{ model.model_specs.min_size }} to {{ model.model_specs.max_size }}x{{ model.model_specs.max_size }}</li>
+                        <li><strong>Performance:</strong> {{ model.model_specs.performance }}</li>
+                    </ul>
+                </div>
+                {% endif %}
             </div>
 
-            {% if model.tgi %}
             <!-- Architecture Section -->
+            {% if model.architecture_diagram %}
             <section class="architecture-section">
                 <div class="section-header">
                     <h2>Deployment Architecture</h2>
@@ -77,13 +88,26 @@ layout: default
                 <div class="mermaid">
                     {{ model.architecture_diagram }}
                 </div>
-                <div class="security-features">
-                    <h3>Security & Performance Features</h3>
-                    <div class="feature-grid">
-                        {% for feature in model.key_features %}
-                        <div class="feature-card">{{ feature }}</div>
-                        {% endfor %}
-                    </div>
+            </section>
+            {% endif %}
+
+            <!-- Security & Performance Features -->
+            {% if model.key_features %}
+            <section class="security-features-section">
+                <h3>Security & Performance Features</h3>
+                <div class="feature-grid">
+                    {% for feature in model.key_features %}
+                    <div class="feature-card">{{ feature }}</div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            {% if model.performance_notes %}
+            <section class="performance-section">
+                <h2>Performance Characteristics</h2>
+                <div class="performance-notes">
+                    {{ model.performance_notes | markdownify }}
                 </div>
             </section>
             {% endif %}
