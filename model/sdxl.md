@@ -1,4 +1,0 @@
----
-layout: model
-model: sdxl
----
