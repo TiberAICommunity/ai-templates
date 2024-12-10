@@ -58,7 +58,7 @@ deployment_steps:
     description: "Deploy the model with a single command (see repository for multi-GPU deployments)"
     code: |
       curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh \
-        | bash -s -- llava-v1.6-mistral-7b-hf
+        | bash -s -- LLava-Next
 
   - title: "3. Access Options"
     description: "Multiple ways to access your deployed model (GPU number is automatically assigned, typically starting with gpu0)"
