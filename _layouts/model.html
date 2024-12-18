@@ -124,10 +124,13 @@ layout: default
                 <div class="progress-tracker">
                     <div class="progress-bar"></div>
                     {% for step in model.deployment_steps %}
-                    <div class="step {% if forloop.first %}active{% endif %}">
-                        <div class="step-number">{{ forloop.index }}</div>
-                        <div class="step-content">
+                    <div class="step {% if forloop.first %}active{% endif %} {% if step.collapsed %}collapsed{% endif %}">
+                        <div class="step-header" onclick="toggleStep(this)">
+                            <div class="step-number">{{ forloop.index }}</div>
+                            <div class="toggle-icon">▼</div>
                             <h3>{{ step.title }}</h3>
+                        </div>
+                        <div class="step-content">
                             <p>{{ step.description }}</p>
                             {% if step.code %}
                             <div class="code-block">
@@ -167,4 +170,19 @@ function copyCode(button) {
         button.querySelector('.copy-text').textContent = originalText;
     }, 2000);
 }
+
+function toggleStep(header) {
+    const step = header.closest('.step');
+    step.classList.toggle('collapsed');
+}
+
+// Initialize steps
+document.addEventListener('DOMContentLoaded', function() {
+    const steps = document.querySelectorAll('.step');
+    steps.forEach(step => {
+        if (step.classList.contains('collapsed')) {
+            step.querySelector('.step-content').style.display = 'none';
+        }
+    });
+});
 </script> 

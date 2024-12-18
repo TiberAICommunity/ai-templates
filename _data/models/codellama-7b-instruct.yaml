@@ -63,6 +63,7 @@ deployment_steps:
 
   - title: "3. Access Options"
     description: "Multiple ways to access your deployed model (GPU number is automatically assigned, typically starting with gpu0)"
+    collapsed: true
     code: |
       # Local Access (same machine):
       curl -X POST http://localhost:8000/codellama-7b-instruct/gpu0/generate \
@@ -80,6 +81,7 @@ deployment_steps:
 
   - title: "4. Managing Services"
     description: "Control and monitor your deployment"
+    collapsed: true
     code: |
       # Check status
       ./tgi-status.sh
@@ -87,6 +89,11 @@ deployment_steps:
       # Stop services
       ./service_cleanup.sh                    # Stop all services
       ./service_cleanup.sh --gpu N (or all)   # Stop specific GPU or all GPUs
+
+  - title: "5. Try Demo UI"
+    description: "Launch the demo UI and API documentation interface"
+    code: |
+      bash ~/xpu_tgi/deploy_ui.sh
 
 tags:
   - label: "Transformer"

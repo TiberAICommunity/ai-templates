@@ -504,4 +504,31 @@ li {
 .code-header span {
     color: #D4D4D4;
     font-size: 0.875rem;
+}
+
+
+.step.collapsed .step-content {
+    display: none;
+}
+
+.step.collapsed .step-number {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+}
+
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.step-header .toggle-icon {
+    font-size: 0.875rem;
+    transition: transform 0.2s;
+}
+
+.step.collapsed .toggle-icon {
+    transform: rotate(-90deg);
 } 
