@@ -60,7 +60,7 @@ key_features:
 
 deployment_steps:
   - title: "1. Setup Prerequisites"
-    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
+    description: "Create Intel Tiber AI Cloud account, select GPU Max VM, and connect to your instance."
     link: "https://cloud.intel.com"
     link_text: "Visit Intel Cloud Portal"
 
@@ -71,14 +71,21 @@ deployment_steps:
       cd xpu_ray && \
       ./deploy.sh sdxl-lightning
 
-  - title: "3. Setup Authentication"
+  - title: "3. Try Demo UI"
+    description: "Launch the demo UI and API documentation interface"
+    code: |
+      bash ~/xpu_ray/deploy_ui.sh
+
+  - title: "4. Setup Authentication"
     description: "Configure authentication token"
+    collapsed: true
     code: |
       source .auth_token.env
       echo $VALID_TOKEN  # Verify token is set
 
-  - title: "4. Generate Images"
+  - title: "5. Generate Images"
     description: "Make requests to generate images"
+    collapsed: true
     code: |
       curl -X POST http://localhost:8000/imagine/generate \
         -H "Authorization: Bearer $VALID_TOKEN" \
@@ -92,8 +99,9 @@ deployment_steps:
           "height": 1024
         }'
 
-  - title: "5. Management"
+  - title: "6. Management"
     description: "Monitor, stop, or switch models"
+    collapsed: true
     code: |
       # Monitor service
       ./monitor_sd.sh

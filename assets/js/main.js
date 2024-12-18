@@ -15,13 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const modelName = card.querySelector('h3').textContent.toLowerCase();
             const cardTags = Array.from(card.querySelectorAll('.tag'))
                 .map(tag => tag.textContent.toLowerCase());
-            const category = card.dataset.category;
-
+            const category = card.dataset.category.toLowerCase();
             const matchesSearch = modelName.includes(searchTerm);
-            const matchesCategory = activeCategory === 'all' || category === activeCategory;
+            const matchesCategory = activeCategory === 'all' || 
+                                  category === activeCategory.toLowerCase();
             const matchesTags = activeTags.size === 0 || 
                               cardTags.some(tag => activeTags.has(tag.toLowerCase()));
-
             card.style.display = (matchesSearch && matchesCategory && matchesTags) ? 'block' : 'none';
         });
     }
@@ -44,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         activeTags.delete(tag.toLowerCase());
         updateActiveTags();
         filterCards();
-        
         document.querySelectorAll('.tag').forEach(tagBtn => {
             if (tagBtn.textContent.toLowerCase() === tag.toLowerCase()) {
                 tagBtn.classList.remove('active');

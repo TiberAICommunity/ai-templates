@@ -50,7 +50,7 @@ key_features:
 
 deployment_steps:
   - title: "1. Setup Prerequisites"
-    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
+    description: "Create Intel Tiber AI Cloud account, select GPU Max VM, and connect to your instance."
     link: "https://cloud.intel.com"
     link_text: "Visit Intel Cloud Portal"
 
@@ -60,8 +60,14 @@ deployment_steps:
       curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh \
         | bash -s -- OpenHermes-Mistral
 
-  - title: "3. Access Options"
+  - title: "3. Try Demo UI"
+    description: "Launch the demo UI and API documentation interface"
+    code: |
+      bash ~/xpu_tgi/deploy_ui.sh
+
+  - title: "4. Access Options"
     description: "Multiple ways to access your deployed model (GPU number is automatically assigned, typically starting with gpu0)"
+    collapsed: true
     code: |
       # Local Access (same machine):
       curl -X POST http://localhost:8000/openhermes-mistral/gpu0/generate \
@@ -77,8 +83,9 @@ deployment_steps:
       ssh -L 8000:localhost:8000 -J guest@guest-ip user@your-vm-ip
       # Then use: http://localhost:8000/openhermes-mistral/gpu0/generate
 
-  - title: "4. Managing Services"
+  - title: "5. Managing Services"
     description: "Control and monitor your deployment"
+    collapsed: true
     code: |
       # Check status
       ./tgi-status.sh

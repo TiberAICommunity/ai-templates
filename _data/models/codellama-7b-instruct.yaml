@@ -51,7 +51,7 @@ key_features:
 
 deployment_steps:
   - title: "1. Setup Prerequisites"
-    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
+    description: "Create Intel Tiber AI Cloud account and select GPU Max VM, and connect to your instance."
     link: "https://cloud.intel.com"
     link_text: "Visit Intel Cloud Portal"
 

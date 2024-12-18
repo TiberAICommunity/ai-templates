@@ -61,44 +61,50 @@ configuration: |
   MAX_WAITING_TOKENS=10
 
 deployment_steps:
-  - title: "Setup Prerequisites"
-    description: "Create Intel Tiber AI Cloud account and select GPU Max VM"
+  - title: "1. Setup Prerequisites"
+    description: "Create Intel Tiber AI Cloud account, select GPU Max VM, and connect to your instance."
     link: "https://cloud.intel.com"
     link_text: "Visit Intel Cloud Portal"
 
-  - title: "Initial Setup"
-    description: "Clone repository and generate your authentication token"
+  - title: "2. Quick Deploy (Recommended)"
+    description: "Deploy the model with a single command (see repository for multi-GPU deployments)"
     code: |
-      git clone https://github.com/tiberaicommunity/xpu_tgi && cd xpu_tgi
-      python utils/generate_token.py
-      # Save the generated token for next step
+      curl -sSL https://raw.githubusercontent.com/tiberaicommunity/xpu_tgi/main/quick-deploy.sh \
+        | bash -s -- Hermes-3-llama3.1
 
-  - title: "Start Model"
-    description: "Launch model service using your generated token"
-    code: "VALID_TOKEN=YOUR_TOKEN ./start.sh Hermes-3-llama3.1 --cache-models"
-
-  - title: "Access Option: Local"
-    description: "Use localhost directly if running on the same machine"
+  - title: "3. Try Demo UI"
+    description: "Launch the demo UI and API documentation interface"
     code: |
-      curl -X POST http://localhost:8000/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
+      bash ~/xpu_tgi/deploy_ui.sh
+
+  - title: "4. Access Options"
+    description: "Multiple ways to access your deployed model (GPU number is automatically assigned, typically starting with gpu0)"
+    collapsed: true
+    code: |
+      # Local Access (same machine):
+      curl -X POST http://localhost:8000/hermes-3-llama3.1/gpu0/generate \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -H "Content-Type: application/json" \
         -d '{"inputs": "Analyze the implications of quantum computing on current cryptography systems:"}'
 
-  - title: "Access Option: Local Tunnel"
-    description: "Use SSH tunnel to access from your local machine"
-    code: "ssh -L 8000:localhost:8000 guest@guest-ip user@your-vm-ip"
+      # Remote Access (evaluation only):
+      ./tunnel.sh  # Creates temporary public URL
+      # Then use: https://YOUR-TUNNEL-URL/hermes-3-llama3.1/gpu0/generate
 
-  - title: "Access Option: Remote (Eval Only)"
-    description: "Create temporary cloudflare tunnel for remote access"
+      # SSH Tunnel (recommended):
+      ssh -L 8000:localhost:8000 -J guest@guest-ip user@your-vm-ip
+      # Then use: http://localhost:8000/hermes-3-llama3.1/gpu0/generate
+
+  - title: "5. Managing Services"
+    description: "Control and monitor your deployment"
+    collapsed: true
     code: |
-      ./tunnel.sh  # Run in new terminal
-      
-      # Use the generated URL:
-      curl -X POST https://YOUR-TUNNEL-URL/generate \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer YOUR_TOKEN' \
-        -d '{"inputs": "Analyze the implications of quantum computing on current cryptography systems:"}'
+      # Check status
+      ./tgi-status.sh
+
+      # Stop services
+      ./service_cleanup.sh                    # Stop all services
+      ./service_cleanup.sh --gpu N (or all)   # Stop specific GPU or all GPUs
 
 tags:
   - label: "Transformer"
