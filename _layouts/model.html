@@ -173,15 +173,25 @@ function copyCode(button) {
 
 function toggleStep(header) {
     const step = header.closest('.step');
+    const content = step.querySelector('.step-content');
+    
     step.classList.toggle('collapsed');
+    if (step.classList.contains('collapsed')) {
+        content.style.display = 'none';
+    } else {
+        content.style.display = 'block';
+    }
 }
 
 // Initialize steps
 document.addEventListener('DOMContentLoaded', function() {
     const steps = document.querySelectorAll('.step');
     steps.forEach(step => {
+        const content = step.querySelector('.step-content');
         if (step.classList.contains('collapsed')) {
-            step.querySelector('.step-content').style.display = 'none';
+            content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
         }
     });
 });
