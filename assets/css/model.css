@@ -532,3 +532,26 @@ li {
 .step.collapsed .toggle-icon {
     transform: rotate(-90deg);
 } 
+
+/* Smooth transitions for toggle */
+.step-content {
+    transition: all 0.3s ease-out;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+/* Highlight the recommended path */
+.step:nth-child(1),
+.step:nth-child(2),
+.step:nth-child(3) {
+    background: linear-gradient(to right, var(--primary-light), transparent);
+    border-left: 3px solid var(--primary);
+}
+
+/* Optional: Add a subtle hover effect */
+.step:hover {
+    transform: translateX(4px);
+    transition: transform 0.2s ease;
+} 
